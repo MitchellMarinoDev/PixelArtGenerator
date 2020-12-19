@@ -1,53 +1,41 @@
 package com.marinodev;
 
-import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
-public class PixelPainter implements Runnable {
+public abstract class PixelPainter extends MouseAdapter {
+    private PixelPanel panel;
+    private List<Consumer<Pixel>> button1Listeners = new ArrayList<>();
+    private List<Consumer<Pixel>> button2Listeners = new ArrayList<>();
+    private List<Consumer<Pixel>> button3Listeners = new ArrayList<>();
 
-    private JFrame frame;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new PixelPainter());
+    public PixelPainter(PixelPanel panel) {
+        super();
+        panel.addMouseListener(this);
+        this.panel = panel;
     }
 
     @Override
-    public void run() {
-        initGUI();
+    public void mousePressed(MouseEvent event) {
+        Pixel pixel = panel.getPixelFromPos(event.getX(), event.getY());
+        switch (event.getButton()) {
+            case MouseEvent.BUTTON1 -> button1Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
+            case MouseEvent.BUTTON2 -> button2Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
+            case MouseEvent.BUTTON3 -> button3Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
+        }
     }
 
-    public void initGUI() {
-        frame = new JFrame("Pixel Art");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.add(new PixelPanel(20, 20, 20));
-
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.add(new PixelPanel(20, 20, 20));
+    public void addLeftClickListener  (Consumer<Pixel> pixelConsumer)  {
+        button1Listeners.add(pixelConsumer);
     }
-
-//    private JPanel createPixels() {
-//        int width = 30;
-//        int height = 20;
-//
-//        JPanel panel = new JPanel();
-//        panel.setLayout(new GridLayout(height, width, 0, 0));
-//
-//        for (int row = 0; row < height; row++) {
-//            for (int column = 0; column < width; column++) {
-//                PixelPanel pixelPanel = new PixelPanel();
-//                pixelPanel.addMouseListener(new ColorListener(pixelPanel));
-//                panel.add(pixelPanel);
-//            }
-//        }
-//
-//        return panel;
-//    }
-
-
-
+    public void addMiddleClickListener(Consumer<Pixel> pixelConsumer) {
+        button2Listeners.add(pixelConsumer);
+    }
+    public void addRightClickListener (Consumer<Pixel> pixelConsumer) {
+        button3Listeners.add(pixelConsumer);
+    }
 }

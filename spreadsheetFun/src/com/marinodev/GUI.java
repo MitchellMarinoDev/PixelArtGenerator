@@ -7,11 +7,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.io.*;
-import java.util.Arrays;
 
 public class GUI extends JFrame{
     private JPanel mainPanel;
@@ -35,7 +35,13 @@ public class GUI extends JFrame{
     private JButton palletButton3;
     private JColorChooser colorChooser;
     private JButton bakeButton;
-    private PixelPanel pixelArtPanel;
+    private JPanel groupParent;
+    private JSpinner groupSpinner;
+    private SpinnerModel groupSpinnerModel;
+    private JButton buildButton;
+    private JButton removeQuestion;
+    private PaintablePixelPanel pixelArtPanel;
+    private PaintablePixelPanel grouperPanel;
 
     private final AbstractBorder inactiveBoarder = new LineBorder(Color.RED, 3);
     private final AbstractBorder activeBoarder = new LineBorder(Color.GREEN, 3);
@@ -55,7 +61,7 @@ public class GUI extends JFrame{
 
         setUpTable();
         // set up a listener for the add row button for the table
-        addQuestion.addActionListener(e -> questionAnsTableModel.addRow(new Object[]{"", ""}));
+        addQuestion.addActionListener(e -> addRowQuestions());
 
         imagePreviewScrollPane.getVerticalScrollBar().setUnitIncrement(16);   // increase scrolling speed of image preview
         imagePreviewScrollPane.getHorizontalScrollBar().setUnitIncrement(16); // increase scrolling speed of image preview
@@ -64,6 +70,7 @@ public class GUI extends JFrame{
         imageScalerSettings(); // set up imageScaler
 
         setupPixelArt();
+        setupGroup();
 
         pallet = new JButton[PALLET_SIZE];
         pallet[0] = palletButton0;
@@ -80,11 +87,6 @@ public class GUI extends JFrame{
 
         setUpSpinners();
 
-        this.setPreferredSize(new Dimension(800, 600));
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(mainPanel);
-        this.pack();
 
         pickImageButton.addActionListener(e -> pickImage());
         rebuildPreviewButton.addActionListener(e -> imageScaler.buildImagePreview());
@@ -94,8 +96,7 @@ public class GUI extends JFrame{
             BufferedImage smallImg = imageScaler.getSmallImg();
             System.out.println(imageScaler.getSmallImg() == null);
             Color[][] imageData = imageToPixelData(smallImg);
-            boolean hasAlphaChannel = smallImg.getAlphaRaster() != null;
-            pixelArtPanel.paintPixels(imageData, hasAlphaChannel);
+            pixelArtPanel.paintPixels(imageData);
         });
         palletButton0.addActionListener(e -> setActivePalletIndex(0));
         palletButton1.addActionListener(e -> setActivePalletIndex(1));
@@ -106,6 +107,7 @@ public class GUI extends JFrame{
             pallet[activePalletIndex].setBackground(colorChooser.getColor());
             setActivePalletIndex(activePalletIndex); // refresh color
         });
+
         pixelArtPanel.getPainter().addMiddleClickListener(pixel -> {
             Color pixelColor = pixel.getColor();
             // if a color in the pallet matches, select it. else set the current pallet color to it
@@ -115,10 +117,30 @@ public class GUI extends JFrame{
                     return;
                 }
             }
+            // if none of the above apply, set selected pallet to the color
             pallet[activePalletIndex].setBackground(pixelColor);
             setActivePalletIndex(activePalletIndex);
         });
 
+        groupSpinner.addChangeListener(e -> {
+            clampGroupSpinner();
+            ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).setCurrentGroup((Integer) groupSpinner.getValue());
+        });
+        removeQuestion.addActionListener(e -> {
+            if (questionAnsTableModel.getRowCount() > 1) // keep 1 row in table
+                removeRowQuestions();
+        });
+
+        this.setPreferredSize(new Dimension(800, 600));
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setContentPane(mainPanel);
+        this.pack();
+        bakeButton.addActionListener(e -> {
+            Pixel[][] pixels = pixelArtPanel.getPixels();
+            grouperPanel.rebuildPixels(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), pixelArtPanel.getPixelSize());
+            grouperPanel.paintPixels(pixels);
+        });
     }
 
     public static void main(String[] args) {
@@ -136,26 +158,32 @@ public class GUI extends JFrame{
     }
 
     private void setUpTable() {
-        // Set up Questions Column
-        TableColumn questionCol = new TableColumn();
-        questionCol.setHeaderValue("Questions");
-        questionCol.setMinWidth(100);
-        questionCol.setWidth(questionAnsTable.getWidth()-100);
-
-        // Set up Answers Column
-        TableColumn answersCol = new TableColumn();
-        answersCol.setHeaderValue("Answers");
-        answersCol.setMinWidth(100);
-
+        // create table
         questionAnsTableModel = new DefaultTableModel();
+        questionAnsTableModel.addColumn("ID");
         questionAnsTableModel.addColumn("Questions");
         questionAnsTableModel.addColumn("Answers");
-
-        // Add Columns
         questionAnsTable.setModel(questionAnsTableModel);
-        questionAnsTable.getColumnModel().getColumn(0).setMinWidth(100);
-        questionAnsTable.getColumnModel().getColumn(0).setPreferredWidth(500);
-        questionAnsTable.getColumnModel().getColumn(1).setMinWidth(100);
+
+        // get columns
+        TableColumn IDCol = questionAnsTable.getColumnModel().getColumn(0);
+        TableColumn questionCol = questionAnsTable.getColumnModel().getColumn(1);
+        TableColumn answersCol = questionAnsTable.getColumnModel().getColumn(2);
+
+        // Set up index Column
+        IDCol.setMinWidth(20);
+        IDCol.setPreferredWidth(20);
+        IDCol.setWidth(20);
+        IDCol.setMaxWidth(20);
+
+        // Set up Questions Column
+        questionCol.setMinWidth(100);
+        questionCol.setPreferredWidth(questionAnsTable.getWidth());
+
+        // Set up Answers Column
+        answersCol.setMinWidth(100);
+
+        addRowQuestions();
     }
 
     private void pickImage() {
@@ -186,7 +214,7 @@ public class GUI extends JFrame{
         activePalletIndex = index;
         pallet[activePalletIndex].setBorder(activeBoarder);
         Color currentColor = pallet[activePalletIndex].getBackground();
-        pixelArtPanel.getPainter().currentColor = currentColor;
+        ((ColorPixelPainter) pixelArtPanel.getPainter()).currentColor = currentColor;
     }
 
 
@@ -195,10 +223,14 @@ public class GUI extends JFrame{
         SpinnerModel smW = new SpinnerNumberModel(20, 1, 999, 1);
         // Size of Pixel Spinner
         SpinnerModel smSOP = new SpinnerNumberModel(20, 4, 80, 1);
+        // Group Spinner
+        groupSpinnerModel = new SpinnerNumberModel(0, 0, 999, 1);
+
 
         widthSpinner .setModel(smW);
         heightSpinner.setModel(smH);
         sizeOfPixelSpinner.setModel(smSOP);
+        groupSpinner.setModel(groupSpinnerModel);
     }
 
 
@@ -221,14 +253,34 @@ public class GUI extends JFrame{
         return result;
     }
 
+    private void addRowQuestions() {
+        questionAnsTableModel.addRow(new Object[]{questionAnsTableModel.getRowCount(), "", ""});
+    }
 
+    private void removeRowQuestions() {
+        questionAnsTableModel.removeRow(questionAnsTableModel.getRowCount() - 1);
+        ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).setMaxGroups(questionAnsTableModel.getRowCount());
+        clampGroupSpinner();
+    }
 
     private void setupPixelArt() {
-        pixelArtPanel = new PixelPanel(20, 20, 20);
+        pixelArtPanel = new PaintablePixelPanel(20, 20, 20);
+        pixelArtPanel.setPainter(new ColorPixelPainter(pixelArtPanel));
         pixelArtParent.add(pixelArtPanel, BorderLayout.SOUTH, 1);
     }
 
-    private void createUIComponents() {
+    private void setupGroup() {
+        grouperPanel = new PaintablePixelPanel(20, 20, 20);
+        grouperPanel.setPainter(new GroupedBoarderPixelPainter(grouperPanel));
+        groupParent.add(grouperPanel, 1);
+    }
 
+    private void createUIComponents() {
+        questionAnsTable = new LockedTable();
+    }
+
+    private void clampGroupSpinner() {
+        if((Integer) groupSpinner.getValue() > questionAnsTableModel.getRowCount()-1)
+            groupSpinner.setValue(questionAnsTableModel.getRowCount()-1);
     }
 }

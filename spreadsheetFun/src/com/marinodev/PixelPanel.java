@@ -6,18 +6,21 @@ import java.awt.*;
 public class PixelPanel extends JPanel {
     private int pixelSize;
     private Pixel[][] pixels;
-    private PixelPanelPainter painter;
+    private int pixelWidth;
+    private int pixelHeight;
 
     public PixelPanel(int x, int y, int pixelSize) {
         super();
+        pixelWidth = x;
+        pixelHeight = y;
         this.pixelSize = pixelSize;
         this.pixels = new Pixel[x][y];
-        painter = new PixelPanelPainter(this);
-        this.addMouseListener(painter);
 
         rebuildPixels(x, y, pixelSize);
     }
     public void rebuildPixels(int x, int y, int pixelSize) {
+        pixelWidth = x;
+        pixelHeight = y;
         this.setLayout(new GridLayout(y, x, 0, 0));
         this.pixelSize = pixelSize;
         this.pixels = new Pixel[x][y];
@@ -42,7 +45,7 @@ public class PixelPanel extends JPanel {
         }
     }
 
-    public void paintPixels(Color[][] data, boolean hasAlpha) {
+    public void paintPixels(Color[][] data) {
         System.out.println(data.length);
         System.out.println(data[0].length);
 
@@ -53,6 +56,23 @@ public class PixelPanel extends JPanel {
         }
     }
 
+    public void paintPixels(Pixel[][] data) {
+        System.out.println(data.length);
+        System.out.println(data[0].length);
+
+        for (int x = 0, dataWidth = data.length; x < dataWidth; x++) {
+            for (int y = 0, dataHeight = data[0].length; y < dataHeight; y++) {
+                pixels[x][y].setColor(data[x][y].getColor());
+            }
+        }
+    }
+
+    public int getPixelWidth() {
+        return pixelWidth;
+    }
+    public int getPixelHeight() {
+        return pixelHeight;
+    }
 
     public int getPixelSize() {
         return pixelSize;
@@ -60,12 +80,12 @@ public class PixelPanel extends JPanel {
     Pixel getPixelFromIndex(int x, int y) {
         return pixels[x][y];
     }
-    public PixelPanelPainter getPainter() {
-        return painter;
-    }
     Pixel getPixelFromPos(int x, int y) {
         int xIndex = x / pixelSize;
         int yIndex = y / pixelSize;
         return pixels[xIndex][yIndex];
+    }
+    public Pixel[][] getPixels() {
+        return pixels;
     }
 }
