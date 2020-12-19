@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.io.*;
+import java.util.Arrays;
 
 public class GUI extends JFrame{
     private JPanel mainPanel;
@@ -33,6 +34,7 @@ public class GUI extends JFrame{
     private JButton palletButton2;
     private JButton palletButton3;
     private JColorChooser colorChooser;
+    private JButton bakeButton;
     private PixelPanel pixelArtPanel;
 
     private final AbstractBorder inactiveBoarder = new LineBorder(Color.RED, 3);
@@ -91,7 +93,7 @@ public class GUI extends JFrame{
             pixelArtPanel.rebuildPixels((Integer) widthSpinner.getValue(), (Integer) heightSpinner.getValue(), (Integer) sizeOfPixelSpinner.getValue());
             BufferedImage smallImg = imageScaler.getSmallImg();
             System.out.println(imageScaler.getSmallImg() == null);
-            int[][] imageData = imageToPixelData(smallImg);
+            Color[][] imageData = imageToPixelData(smallImg);
             boolean hasAlphaChannel = smallImg.getAlphaRaster() != null;
             pixelArtPanel.paintPixels(imageData, hasAlphaChannel);
         });
@@ -206,39 +208,16 @@ public class GUI extends JFrame{
         final int height = image.getHeight();
         final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
-        int[][] result = new int[height][width];
-        if (hasAlphaChannel) {
-            final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0; pixel + 3 < pixels.length; pixel += pixelLength) {
-                Color color = new Color((pixels[pixel + 3], (pixels[pixel + 2], pixels[pixel + 1])
-                argb += ((pixels[pixel] & 0xff) << 24); // alpha
-                argb += (pixels[pixel + 1] & 0xff); // blue
-                argb += ((pixels[pixel + 2] & 0xff) << 8); // green
-                argb += ((pixels[pixel + 3] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }
-        } else {
-            final int pixelLength = 3;
-            for (int pixel = 0, row = 0, col = 0; pixel + 2 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += -16777216; // 255 alpha
-                argb += ((int) pixels[pixel] & 0xff); // blue
-                argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
+        Color[][] result = new Color[width][height];
+        for (int pixel = 0, row = 0, col = 0; pixel + 1 < pixels.length; pixel++) {
+            Color color = new Color(pixels[pixel], hasAlphaChannel);
+            result[col][row] = color;
+
+            if (++col == width) {
+                col = 0;
+                row++;
             }
         }
-
         return result;
     }
 
@@ -246,10 +225,10 @@ public class GUI extends JFrame{
 
     private void setupPixelArt() {
         pixelArtPanel = new PixelPanel(20, 20, 20);
-        pixelArtParent.add(pixelArtPanel, BorderLayout.SOUTH);
+        pixelArtParent.add(pixelArtPanel, BorderLayout.SOUTH, 1);
     }
 
     private void createUIComponents() {
-        pixelArtParent = new JPanel();
+
     }
 }

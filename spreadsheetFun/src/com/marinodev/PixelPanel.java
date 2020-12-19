@@ -42,6 +42,17 @@ public class PixelPanel extends JPanel {
         }
     }
 
+    public void paintPixels(Color[][] data, boolean hasAlpha) {
+        System.out.println(data.length);
+        System.out.println(data[0].length);
+
+        for (int x = 0, dataWidth = data.length; x < dataWidth; x++) {
+            for (int y = 0, dataHeight = data[0].length; y < dataHeight; y++) {
+                pixels[x][y].setColor(data[x][y]);
+            }
+        }
+    }
+
 
     public int getPixelSize() {
         return pixelSize;
