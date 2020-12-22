@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Locale;
 
 public class SpreadsheetBuilder {
 
-    public static void buildSheet(int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups) throws IOException {
+    public static void buildSheet(int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups, File saveTo) throws IOException {
         System.out.println(widthOfPixelArtSection);
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Pixel Art Quiz");
@@ -56,13 +57,18 @@ public class SpreadsheetBuilder {
             buildRulesForGroup(pixelGroup, sheetCF, answer, i);
         }
 
-        writeSheet(workbook, "Pixel_Art.xlsx");
-        workbook.close();
+        writeSheet(workbook, saveTo);
+    }
+
+    private static void writeSheet(XSSFWorkbook workbook, File file) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(file);
+        workbook.write(outputStream);
+        outputStream.close();
     }
 
     private static void writeSheet(XSSFWorkbook workbook, String fileName) throws IOException {
-        FileOutputStream outputStream = new FileOutputStream(fileName);
-        workbook.write(outputStream);
+        File file = new File(fileName);
+        writeSheet(workbook, file);
     }
 
     private static void buildRulesForGroup(List<Pixel> pixelGroup, SheetConditionalFormatting sheetCF, String answer,  int groupNumber) {

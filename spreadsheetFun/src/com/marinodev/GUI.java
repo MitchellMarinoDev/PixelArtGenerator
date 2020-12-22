@@ -143,6 +143,18 @@ public class GUI extends JFrame{
             grouperPanel.paintPixels(pixels);
         });
         buildButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            File saveTo;
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                saveTo = fileChooser.getSelectedFile();
+                System.out.println("Save as file: " + saveTo.getAbsolutePath());
+            } else return;
+
             //TODO: add logic for building a spreadsheet from table
 
             // Generate data array from table
@@ -156,7 +168,7 @@ public class GUI extends JFrame{
             List<List<Pixel>> groupedPixels = ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).getPixelGroups();
 
             try {
-                SpreadsheetBuilder.buildSheet(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels);
+                SpreadsheetBuilder.buildSheet(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels, saveTo);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
