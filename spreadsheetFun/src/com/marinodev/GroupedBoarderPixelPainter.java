@@ -4,15 +4,12 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class GroupedBoarderPixelPainter extends PixelPainter {
     public AbstractBorder selectedBoarder;
     public AbstractBorder unselectedBoarder;
     public AbstractBorder defaultBoarder;
-
-    private List<AbstractBorder> groupBoarders;
 
     private int currentGroup = 0;
 
@@ -21,33 +18,52 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
     public GroupedBoarderPixelPainter(PixelPanel panel) {
         super(panel);
 
-        groupBoarders = new ArrayList<>();
         groupedPixels.add(new ArrayList<>());
 
         selectedBoarder   = new LineBorder(Color.GREEN, 3);
         unselectedBoarder = new LineBorder(Color.RED,   3);
-        defaultBoarder = new LineBorder(Color.BLACK,    1);
+        defaultBoarder    = new LineBorder(Color.BLACK, 1);
 
         // add logic to paint pixels
         addLeftClickListener(pixel -> {
-            // TODO: ERROR: will add pixel to group even if it is in a group
+            for (List<Pixel> pixelList : groupedPixels) {
+                if (pixelList.contains(pixel))
+                    return;
+            }
             groupedPixels.get(currentGroup).add(pixel);
             pixel.setBorder(selectedBoarder);
             pixel.repaint();
         });
         addRightClickListener(pixel -> {
-            // TODO: check if this works
-            // remove pixel from list
-            for (List<Pixel> pixelList : groupedPixels) {
-                if (pixelList.contains(pixel)) {
-                    pixelList.remove(pixel);
-                    break;
-                }
+            if (groupedPixels.get(currentGroup).remove(pixel)) {
+                // remove boarder
+                pixel.setBorder(defaultBoarder);
+                pixel.repaint();
             }
-            // remove boarder
-            pixel.setBorder(defaultBoarder);
-            pixel.repaint();
         });
+    }
+
+    @Override
+    public void onRebuildPixels() {
+        // new pixels are create therefore we need to make a new list of grouped pixels at the same cords
+        List<List<Pixel>> newGroupedPixels = new ArrayList<>();
+        for (int i = 0, groupedPixelsSize = groupedPixels.size(); i < groupedPixelsSize; i++) {
+            List<Pixel> pixelList = groupedPixels.get(i);
+            newGroupedPixels.add(new ArrayList<>());
+            for (Pixel pixel : pixelList) {
+                // get new pixel that is at the same point as the old one and add it to the list
+                Pixel newPixel = super.getPanel().getPixelFromIndex(pixel.getXPos(), pixel.getYPos());
+                newGroupedPixels.get(newGroupedPixels.size() - 1).add(newPixel);
+                // apply the boarder
+                if (currentGroup == i) {
+                    newPixel.setBorder(selectedBoarder);
+                } else {
+                    newPixel.setBorder(unselectedBoarder);
+                }
+                newPixel.repaint();
+            }
+        }
+        groupedPixels = newGroupedPixels;
     }
 
     public void setCurrentGroup(int currentGroup) {
@@ -75,4 +91,9 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
             }
         }
     }
+
+    public List<List<Pixel>> getPixelGroups() {
+        return groupedPixels;
+    }
+
 }

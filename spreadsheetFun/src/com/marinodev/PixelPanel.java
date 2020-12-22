@@ -27,7 +27,7 @@ public class PixelPanel extends JPanel {
         this.removeAll();
         for (int row = 0; row < y; row++) {
             for (int column = 0; column < x; column++) {
-                Pixel pixel = new Pixel(this.pixelSize);
+                Pixel pixel = new Pixel(this.pixelSize, column, row);
                 pixels[column][row] = pixel;
                 this.add(pixel);
             }
@@ -35,9 +35,6 @@ public class PixelPanel extends JPanel {
     }
 
     public void paintPixels(int[][] data, boolean hasAlpha) {
-        System.out.println(data.length);
-        System.out.println(data[0].length);
-
         for (int x = 0, dataWidth = data.length; x < dataWidth; x++) {
             for (int y = 0, dataHeight = data[0].length; y < dataHeight; y++) {
                 pixels[x][y].setColor(new Color(data[x][y], hasAlpha));
@@ -46,9 +43,6 @@ public class PixelPanel extends JPanel {
     }
 
     public void paintPixels(Color[][] data) {
-        System.out.println(data.length);
-        System.out.println(data[0].length);
-
         for (int x = 0, dataWidth = data.length; x < dataWidth; x++) {
             for (int y = 0, dataHeight = data[0].length; y < dataHeight; y++) {
                 pixels[x][y].setColor(data[x][y]);
@@ -57,9 +51,6 @@ public class PixelPanel extends JPanel {
     }
 
     public void paintPixels(Pixel[][] data) {
-        System.out.println(data.length);
-        System.out.println(data[0].length);
-
         for (int x = 0, dataWidth = data.length; x < dataWidth; x++) {
             for (int y = 0, dataHeight = data[0].length; y < dataHeight; y++) {
                 pixels[x][y].setColor(data[x][y].getColor());

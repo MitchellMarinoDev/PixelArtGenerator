@@ -7,11 +7,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.*;
+import java.util.Arrays;
+
+import java.util.List;
 
 public class GUI extends JFrame{
     private JPanel mainPanel;
@@ -140,6 +141,25 @@ public class GUI extends JFrame{
             Pixel[][] pixels = pixelArtPanel.getPixels();
             grouperPanel.rebuildPixels(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), pixelArtPanel.getPixelSize());
             grouperPanel.paintPixels(pixels);
+        });
+        buildButton.addActionListener(e -> {
+            //TODO: add logic for building a spreadsheet from table
+
+            // Generate data array from table
+            // [ROW][COL]
+            String[][] data = new String[questionAnsTableModel.getRowCount()][questionAnsTableModel.getColumnCount() - 1];
+            for (int row = 0; row < questionAnsTableModel.getRowCount(); row++) {
+                for (int col = 1; col < questionAnsTableModel.getColumnCount(); col++)
+                    data[row][col - 1] = (String) questionAnsTableModel.getValueAt(row, col);
+            }
+
+            List<List<Pixel>> groupedPixels = ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).getPixelGroups();
+
+            try {
+                SpreadsheetBuilder.buildSheet(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
     }
 

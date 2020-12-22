@@ -1,6 +1,5 @@
 package com.marinodev;
 
-import java.awt.*;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,6 +18,8 @@ public abstract class PixelPainter extends MouseAdapter {
         this.panel = panel;
     }
 
+    public void onRebuildPixels() {}
+
     @Override
     public void mousePressed(MouseEvent event) {
         Pixel pixel = panel.getPixelFromPos(event.getX(), event.getY());
@@ -27,6 +28,10 @@ public abstract class PixelPainter extends MouseAdapter {
             case MouseEvent.BUTTON2 -> button2Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
             case MouseEvent.BUTTON3 -> button3Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
         }
+    }
+
+    public PixelPanel getPanel() {
+        return panel;
     }
 
     public void addLeftClickListener  (Consumer<Pixel> pixelConsumer)  {

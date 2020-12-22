@@ -7,6 +7,13 @@ public class PaintablePixelPanel extends PixelPanel{
         super(x, y, pixelSize);
     }
 
+    @Override
+    public void rebuildPixels(int x, int y, int pixelSize) {
+        super.rebuildPixels(x, y, pixelSize);
+        if (painter != null)
+            painter.onRebuildPixels();
+    }
+
     public PixelPainter getPainter() {
         return painter;
     }
