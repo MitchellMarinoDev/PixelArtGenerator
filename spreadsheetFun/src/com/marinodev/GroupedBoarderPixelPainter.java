@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupedBoarderPixelPainter extends PixelPainter {
-    public LineBorder selectedBoarder;
-    public LineBorder unselectedBoarder;
-    public LineBorder defaultBoarder;
+    public AbstractBorder selectedBoarder;
+    public AbstractBorder unselectedBoarder;
+    public AbstractBorder defaultBoarder;
 
     private int currentGroup = 0;
 
@@ -23,7 +23,6 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
         selectedBoarder   = new LineBorder(Color.GREEN, 3);
         unselectedBoarder = new LineBorder(Color.RED,   3);
         defaultBoarder    = new LineBorder(Color.BLACK, 1);
-
 
         // add logic to paint pixels
         addLeftClickListener(pixel -> {

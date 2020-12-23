@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="15">
+      <module name="PixelArtGenerator.main" target="15" />
+      <module name="PixelArtGenerator.test" target="15" />
       <module name="src" target="15" />
       <module name="src.main" target="15" />
       <module name="src.test" target="15" />
-      <module name="untitled" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>
