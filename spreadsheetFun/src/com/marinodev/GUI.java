@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GUI extends JFrame{
+    //region SwingElements
     private JPanel mainPanel;
     private JTable questionAnsTable;
     private DefaultTableModel questionAnsTableModel;
@@ -43,6 +44,7 @@ public class GUI extends JFrame{
     private JButton removeQuestion;
     private PaintablePixelPanel pixelArtPanel;
     private PaintablePixelPanel grouperPanel;
+    //endregion
 
     private final AbstractBorder inactiveBoarder = new LineBorder(Color.RED, 3);
     private final AbstractBorder activeBoarder = new LineBorder(Color.GREEN, 3);
