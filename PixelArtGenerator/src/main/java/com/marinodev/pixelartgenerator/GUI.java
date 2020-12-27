@@ -13,9 +13,9 @@ import java.io.*;
 
 import java.util.List;
 
-public class GUI extends JFrame{
-    //region SwingElements
+public class GUI extends JFrame {
     private JPanel mainPanel;
+    //region SwingElements
     // QUESTION ANSWER TABLE PANEL
     private JTable questionAnsTable;
     private DefaultTableModel questionAnsTableModel;
@@ -129,25 +129,7 @@ public class GUI extends JFrame{
             grouperPanel.rebuildPixels(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), pixelArtPanel.getPixelSize());
             grouperPanel.paintPixels(pixels);
         });
-        buildButton.addActionListener(e -> {
-            //TODO: add logic for building a spreadsheet from table
-
-            // Generate data array from table
-            // [ROW][COL]
-            String[][] data = new String[questionAnsTableModel.getRowCount()][questionAnsTableModel.getColumnCount() - 1];
-            for (int row = 0; row < questionAnsTableModel.getRowCount(); row++) {
-                for (int col = 1; col < questionAnsTableModel.getColumnCount(); col++)
-                    data[row][col - 1] = (String) questionAnsTableModel.getValueAt(row, col);
-            }
-
-            List<List<Pixel>> groupedPixels = ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).getPixelGroups();
-
-            try {
-                XLSXSpreadsheetBuilder.buildSheet(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
+        buildButton.addActionListener(e -> buildSpreadsheet(new XLSXSpreadsheetBuilder()));
     }
 
     // Custom Create Components
@@ -156,9 +138,23 @@ public class GUI extends JFrame{
     }
 
 
-
-
     //region HELPER FUNCTIONS
+    private void buildSpreadsheet(SpreadsheetBuilder builder) {
+        // Generate data array from table
+        // [ROW][COL]
+        String[][] data = new String[questionAnsTableModel.getRowCount()][questionAnsTableModel.getColumnCount() - 1];
+        for (int row = 0; row < questionAnsTableModel.getRowCount(); row++) {
+            for (int col = 1; col < questionAnsTableModel.getColumnCount(); col++)
+                data[row][col - 1] = (String) questionAnsTableModel.getValueAt(row, col);
+        }
+        List<List<Pixel>> groupedPixels = ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).getPixelGroups();
+
+        try {
+            builder.buildSheet(this, pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
     private void pickImage() {
         var fileSelector = new JFileChooser();
         int returnVal = fileSelector.showOpenDialog(this);
@@ -175,10 +171,6 @@ public class GUI extends JFrame{
 
             imageScaler.setImg(image);
             imageScaler.buildImagePreview();
-
-            System.out.println("Opening: " + file.getName());
-        } else {
-            System.out.println("Open command cancelled by user");
         }
     }
     private void setActivePalletIndex(int index) {
@@ -206,8 +198,8 @@ public class GUI extends JFrame{
         return result;
     }
     private void clampGroupSpinner() {
-        if((Integer) groupSpinner.getValue() > questionAnsTableModel.getRowCount()-1)
-            groupSpinner.setValue(questionAnsTableModel.getRowCount()-1);
+        if ((Integer) groupSpinner.getValue() > questionAnsTableModel.getRowCount() - 1)
+            groupSpinner.setValue(questionAnsTableModel.getRowCount() - 1);
     }
     private void addRowQuestions() {
         questionAnsTableModel.addRow(new Object[]{questionAnsTableModel.getRowCount(), "", ""});
@@ -256,6 +248,7 @@ public class GUI extends JFrame{
         addRowQuestions();
     }
     private void setupPixelArt() {
+        //pixelArtPanel = new PaintablePixelPanel(20, 20, 20);
         pixelArtPanel = new PaintablePixelPanel(20, 20, 20);
         pixelArtPanel.setPainter(new ColorPixelPainter(pixelArtPanel));
         pixelArtParent.add(pixelArtPanel, BorderLayout.SOUTH, 1);
@@ -269,11 +262,12 @@ public class GUI extends JFrame{
         pallet[3] = palletButton3;
 
         palletButton0.setBorder(new LineBorder(Color.GREEN, 3));
-        palletButton1.setBorder(new LineBorder(Color.RED,   3));
-        palletButton2.setBorder(new LineBorder(Color.RED,   3));
-        palletButton3.setBorder(new LineBorder(Color.RED,   3));
+        palletButton1.setBorder(new LineBorder(Color.RED, 3));
+        palletButton2.setBorder(new LineBorder(Color.RED, 3));
+        palletButton3.setBorder(new LineBorder(Color.RED, 3));
     }
     private void setupGroup() {
+        //grouperPanel = new PaintablePixelPanel(20, 20, 20);
         grouperPanel = new PaintablePixelPanel(20, 20, 20);
         grouperPanel.setPainter(new GroupedBoarderPixelPainter(grouperPanel));
         groupParent.add(grouperPanel, 1);
@@ -296,7 +290,7 @@ public class GUI extends JFrame{
         SpinnerModel groupSpinnerModel = new SpinnerNumberModel(0, 0, 999, 1);
 
 
-        widthSpinner .setModel(smW);
+        widthSpinner.setModel(smW);
         heightSpinner.setModel(smH);
         sizeOfPixelSpinner.setModel(smSOP);
         groupSpinner.setModel(groupSpinnerModel);

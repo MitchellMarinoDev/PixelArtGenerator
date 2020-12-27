@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="PixelArtGenerator:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -38,6 +43,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -55,9 +61,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/poi-4.1.2" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
@@ -69,26 +76,31 @@
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="gradle build --warning-mode all" />
       <command value="gradle idea" />
+      <command value="gradle Main.main() --warning-mode=" />
+      <command value="gradle Main.main() --warning-mode=all" />
+      <command value="gradle Main.main() --warning-mode all" />
+      <command value="gradle com.marinodev.pixelartgenerator.Main.main() --warning-mode all" />
+      <command value="gradle Java.com.marinodev.pixelartgenerator.Main.main() --warning-mode all" />
+      <command value="gradle java.com.marinodev.pixelartgenerator.Main.main() --warning-mode all" />
+      <command value="./gradlew --warning-mode=all" />
+      <command value="gradle build" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.PixelArtGenerator [idea]">
-    <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.GUI" />
-      <module name="PixelArtGenerator.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.marinodev.pixelartgenerator.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.PixelArtPanel">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-15" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.Main" />
       <module name="PixelArtGenerator.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PixelArtPanel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.PixelArtPanel" />
+      <module name="PixelArtGenerator.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.marinodev.pixelartgenerator.*" />
@@ -99,28 +111,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PixelArtGenerator [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="dependencies" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="PixelArtGenerator [idea]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PixelArtGenerator [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -131,7 +122,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="idea" />
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" value="" />
@@ -141,12 +132,60 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="PixelArtGenerator [java.com.marinodev.pixelartgenerator.Main.main()]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--warning-mode all" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="java.com.marinodev.pixelartgenerator.Main.main()" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="PixelArtGenerator" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--warning-mode all" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.PixelArtGenerator" />
+      <item itemvalue="Gradle.PixelArtGenerator [java.com.marinodev.pixelartgenerator.Main.main()]" />
+      <item itemvalue="Gradle.PixelArtGenerator [build]" />
+      <item itemvalue="Application.PixelArtPanel" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.PixelArtGenerator [idea]" />
-        <item itemvalue="Gradle.PixelArtGenerator [dependencies]" />
+        <item itemvalue="Application.PixelArtPanel" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.GUI" />
+        <item itemvalue="Gradle.PixelArtGenerator [build]" />
+        <item itemvalue="Gradle.PixelArtGenerator" />
+        <item itemvalue="Gradle.PixelArtGenerator [java.com.marinodev.pixelartgenerator.Main.main()]" />
       </list>
     </recent_temporary>
   </component>
@@ -172,5 +211,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

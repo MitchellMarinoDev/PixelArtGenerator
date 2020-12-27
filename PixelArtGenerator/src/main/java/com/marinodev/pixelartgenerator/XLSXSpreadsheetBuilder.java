@@ -8,14 +8,16 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.List;
 
-public class XLSXSpreadsheetBuilder {
+public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
+    public void buildSheet(JFrame frame, int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups) throws IOException {
 
-    public static void buildSheet(int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups) throws IOException {
         System.out.println(widthOfPixelArtSection);
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Pixel Art Quiz");
@@ -54,12 +56,24 @@ public class XLSXSpreadsheetBuilder {
             buildRulesForGroup(pixelGroup, sheetCF, answer, i);
         }
 
-        writeSheet(workbook, "Pixel_Art.xlsx");
-        workbook.close();
+        // choose save location
+        var fileSelector = new JFileChooser();
+        int returnVal = fileSelector.showOpenDialog(frame);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileSelector.getSelectedFile();
+
+            writeSheet(workbook, file);
+            workbook.close();
+        }
     }
 
     private static void writeSheet(XSSFWorkbook workbook, String fileName) throws IOException {
         FileOutputStream outputStream = new FileOutputStream(fileName);
+        workbook.write(outputStream);
+    }
+    private static void writeSheet(XSSFWorkbook workbook, File file) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(file);
         workbook.write(outputStream);
     }
 
