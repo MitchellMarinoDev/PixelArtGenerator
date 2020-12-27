@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+            'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+            'Main-Class': 'com.marinodev.pixelartgenerator.Main'
+        )
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    // APACHE POI
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    compileOnly group: 'org.apache.poi', name: 'poi',       version: '4.1.2'
+    compileOnly group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+}
+
+test {
+    useJUnitPlatform()
+}

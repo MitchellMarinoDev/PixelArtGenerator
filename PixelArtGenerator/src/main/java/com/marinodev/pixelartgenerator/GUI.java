@@ -64,6 +64,7 @@ public class GUI extends JFrame {
     public GUI(String title) throws HeadlessException {
         super(title);
 
+        $$$setupUI$$$();
         setUpTable();
         // set up a listener for the add row button for the table
         addQuestion.addActionListener(e -> addRowQuestions());
@@ -155,8 +156,9 @@ public class GUI extends JFrame {
             ioException.printStackTrace();
         }
     }
+
     private void pickImage() {
-        var fileSelector = new JFileChooser();
+        JFileChooser fileSelector = new JFileChooser();
         int returnVal = fileSelector.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -173,12 +175,14 @@ public class GUI extends JFrame {
             imageScaler.buildImagePreview();
         }
     }
+
     private void setActivePalletIndex(int index) {
         pallet[activePalletIndex].setBorder(inactiveBoarder);
         activePalletIndex = index;
         pallet[activePalletIndex].setBorder(activeBoarder);
         ((ColorPixelPainter) pixelArtPanel.getPainter()).currentColor = pallet[activePalletIndex].getBackground();
     }
+
     private static Color[][] imageToPixelData(BufferedImage image) {
         final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         final int width = image.getWidth();
@@ -197,13 +201,16 @@ public class GUI extends JFrame {
         }
         return result;
     }
+
     private void clampGroupSpinner() {
         if ((Integer) groupSpinner.getValue() > questionAnsTableModel.getRowCount() - 1)
             groupSpinner.setValue(questionAnsTableModel.getRowCount() - 1);
     }
+
     private void addRowQuestions() {
         questionAnsTableModel.addRow(new Object[]{questionAnsTableModel.getRowCount(), "", ""});
     }
+
     private void removeRowQuestions() {
         questionAnsTableModel.removeRow(questionAnsTableModel.getRowCount() - 1);
         ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).setMaxGroups(questionAnsTableModel.getRowCount());
@@ -219,6 +226,7 @@ public class GUI extends JFrame {
         imageScaler.setMaxDisplayResX(800);
         imageScaler.setMaxDisplayResY(800);
     }
+
     private void setUpTable() {
         // create table
         questionAnsTableModel = new DefaultTableModel();
@@ -247,12 +255,14 @@ public class GUI extends JFrame {
 
         addRowQuestions();
     }
+
     private void setupPixelArt() {
         //pixelArtPanel = new PaintablePixelPanel(20, 20, 20);
         pixelArtPanel = new PaintablePixelPanel(20, 20, 20);
         pixelArtPanel.setPainter(new ColorPixelPainter(pixelArtPanel));
         pixelArtParent.add(pixelArtPanel, BorderLayout.SOUTH, 1);
     }
+
     private void setupPallet() {
         int PALLET_SIZE = 4;
         pallet = new JButton[PALLET_SIZE];
@@ -266,12 +276,14 @@ public class GUI extends JFrame {
         palletButton2.setBorder(new LineBorder(Color.RED, 3));
         palletButton3.setBorder(new LineBorder(Color.RED, 3));
     }
+
     private void setupGroup() {
         //grouperPanel = new PaintablePixelPanel(20, 20, 20);
         grouperPanel = new PaintablePixelPanel(20, 20, 20);
         grouperPanel.setPainter(new GroupedBoarderPixelPainter(grouperPanel));
         groupParent.add(grouperPanel, 1);
     }
+
     private void increaseScrollSpeeds() {
         // increase scrolling speed of image preview
         imagePreviewScrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -281,6 +293,7 @@ public class GUI extends JFrame {
         pixelArtScroll.getVerticalScrollBar().setUnitIncrement(16);
         pixelArtScroll.getHorizontalScrollBar().setUnitIncrement(16);
     }
+
     private void setUpSpinners() {
         SpinnerModel smH = new SpinnerNumberModel(20, 1, 999, 1);
         SpinnerModel smW = new SpinnerNumberModel(20, 1, 999, 1);
@@ -295,5 +308,6 @@ public class GUI extends JFrame {
         sizeOfPixelSpinner.setModel(smSOP);
         groupSpinner.setModel(groupSpinnerModel);
     }
+
     //endregion
 }

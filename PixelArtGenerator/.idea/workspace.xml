@@ -64,7 +64,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="project.propGUI" />
   </component>
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
@@ -88,7 +88,7 @@
       <command value="gradle build" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.PixelArtPanel">
+  <component name="RunManager" selected="Gradle.PixelArtGenerator [build]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-15" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -116,7 +116,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="--scan" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -181,9 +181,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.PixelArtPanel" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.PixelArtGenerator [build]" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.PixelArtPanel" />
         <item itemvalue="Gradle.PixelArtGenerator" />
         <item itemvalue="Gradle.PixelArtGenerator [java.com.marinodev.pixelartgenerator.Main.main()]" />
       </list>

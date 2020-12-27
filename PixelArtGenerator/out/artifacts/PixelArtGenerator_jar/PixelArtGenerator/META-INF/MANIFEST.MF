@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Main-Class: com.marinodev.pixelartgenerator.Main
+Implementation-Title: opentest4j
+Bundle-License: The Apache License, Version 2.0
+Build-Date: 2019-06-06
+Bundle-SymbolicName: org.opentest4j
+Implementation-Version: 1.2.0
+Built-By: OTA4J Team
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1559849033747
+Specification-Vendor: opentest4j.org
+Specification-Title: opentest4j
+Bundle-Vendor: opentest4j.org
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Tool: Bnd-4.0.0.201805111645
+Implementation-Vendor: opentest4j.org
+Export-Package: org.opentest4j;version="1.2.0"
+Bundle-Version: 1.2.0
+Bundle-Name: opentest4j
+Build-Revision: 75136304fab712895090c9c4678dc72ccbcb5e21
+Build-Time: 21:23:52.218+0200
+Created-By: 11.0.2 (Oracle Corporation 11.0.2+9)
+Specification-Version: 1.2.0
+
