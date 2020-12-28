@@ -3,16 +3,21 @@ package com.marinodev.pixelartgenerator;
 import java.awt.*;
 
 public class LineBorderSpecification {
-    public int width;
+    public int thickness;
     public Color color;
 
     public LineBorderSpecification() {
-        width = 1;
-        color = new Color(0, 0, 0);
+        thickness = 1;
+        color = Color.BLACK;
     }
 
-    public LineBorderSpecification(int width, Color color) {
-        this.width = width;
+    public LineBorderSpecification(Color color, int thickness) {
+        this.thickness = thickness;
         this.color = color;
+    }
+
+    public void copy(LineBorderSpecification other) {
+        this.thickness = other.thickness;
+        this.color = other.color;
     }
 }

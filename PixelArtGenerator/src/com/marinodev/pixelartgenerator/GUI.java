@@ -7,6 +7,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.*;
@@ -32,6 +34,7 @@ public class GUI extends JFrame {
     private JButton buildPixelArtButton;
     private JScrollPane imagePreviewScrollPane;
     private JLabel imagePreview;
+    private JButton bgColorButton;
 
     // PIXEL ART PANEL
     private JColorChooser colorChooser;
@@ -49,8 +52,11 @@ public class GUI extends JFrame {
     private JPanel groupParent;
     private JSpinner groupSpinner;
     private JButton buildButton;
+    private JButton buildGoogleSheetButton;
     private PaintablePixelPanel grouperPanel;
     //endregion
+
+    private Color bgColor = Color.WHITE;
 
     private final AbstractBorder inactiveBoarder = new LineBorder(Color.RED, 3);
     private final AbstractBorder activeBoarder = new LineBorder(Color.GREEN, 3);
@@ -82,9 +88,8 @@ public class GUI extends JFrame {
         buildPixelArtButton.addActionListener(e -> {
             pixelArtPanel.rebuildPixels((Integer) widthSpinner.getValue(), (Integer) heightSpinner.getValue(), (Integer) sizeOfPixelSpinner.getValue());
             BufferedImage smallImg = imageScaler.getSmallImg();
-            System.out.println(imageScaler.getSmallImg() == null);
             Color[][] imageData = imageToPixelData(smallImg);
-            pixelArtPanel.paintPixels(imageData);
+            pixelArtPanel.setPixelColors(imageData, bgColor);
         });
 
         palletButton0.addActionListener(e -> setActivePalletIndex(0));
@@ -98,7 +103,7 @@ public class GUI extends JFrame {
         });
 
         pixelArtPanel.getPainter().addMiddleClickListener(pixel -> {
-            Color pixelColor = pixel.getColor();
+            Color pixelColor = pixel.color;
             // if a color in the pallet matches, select it. else set the current pallet color to it
             for (int i = 0, palletLength = pallet.length; i < palletLength; i++) {
                 if (pallet[i].getBackground().equals(pixelColor)) {
@@ -127,10 +132,20 @@ public class GUI extends JFrame {
         this.pack();
         bakeButton.addActionListener(e -> {
             Pixel[][] pixels = pixelArtPanel.getPixels();
-            grouperPanel.rebuildPixels(pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), pixelArtPanel.getPixelSize());
-            grouperPanel.paintPixels(pixels);
+            grouperPanel.rebuildPixels(pixelArtPanel.getNPixelsX(), pixelArtPanel.getNPixelsY(), pixelArtPanel.getPixelSize());
+            grouperPanel.copyPixels(pixels);
         });
         buildButton.addActionListener(e -> buildSpreadsheet(new XLSXSpreadsheetBuilder()));
+        bgColorButton.setBackground(bgColor);
+        bgColorButton.addActionListener(e -> {
+            if (bgColor.equals(Color.BLACK))
+                bgColor = Color.WHITE;
+            else if (bgColor.equals(Color.WHITE))
+                bgColor = Color.BLACK;
+            else
+                throw new IllegalStateException("bgColor must be equal to Color.BLACK or Color.WHITE");
+            bgColorButton.setBackground(bgColor);
+        });
     }
 
     // Custom Create Components
@@ -151,7 +166,7 @@ public class GUI extends JFrame {
         List<List<Pixel>> groupedPixels = ((GroupedBoarderPixelPainter) grouperPanel.getPainter()).getPixelGroups();
 
         try {
-            builder.buildSheet(this, pixelArtPanel.getPixelWidth(), pixelArtPanel.getPixelHeight(), data, groupedPixels);
+            builder.buildSheet(this, pixelArtPanel.getNPixelsX(), pixelArtPanel.getNPixelsY(), data, groupedPixels);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

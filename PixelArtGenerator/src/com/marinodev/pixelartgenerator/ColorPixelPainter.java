@@ -2,20 +2,20 @@ package com.marinodev.pixelartgenerator;
 
 import java.awt.*;
 
-public class ColorPixelPainter extends PixelPainter{
+public class ColorPixelPainter extends PixelPainter {
     public Color currentColor = Color.BLUE;
     public Color bgColor = Color.WHITE;
 
-    public ColorPixelPainter(PixelPanel panel) {
+    public ColorPixelPainter(PixelArtPanel panel) {
         super(panel);
         // add logic to paint pixels
         addLeftClickListener(pixel -> {
-            pixel.setColor(currentColor);
-            pixel.repaint();
+            pixel.color = currentColor;
+            panel.paintPixel(pixel);
         });
         addRightClickListener(pixel -> {
-            pixel.setColor(bgColor);
-            pixel.repaint();
+            pixel.color = bgColor;
+            panel.paintPixel(pixel);
         });
     }
 }

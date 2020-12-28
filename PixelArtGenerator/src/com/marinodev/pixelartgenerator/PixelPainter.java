@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public abstract class PixelPainter extends MouseAdapter {
-    private PixelPanel panel;
+    private PixelArtPanel panel;
     private List<Consumer<Pixel>> button1Listeners = new ArrayList<>();
     private List<Consumer<Pixel>> button2Listeners = new ArrayList<>();
     private List<Consumer<Pixel>> button3Listeners = new ArrayList<>();
 
-    public PixelPainter(PixelPanel panel) {
+    public PixelPainter(PixelArtPanel panel) {
         super();
         panel.addMouseListener(this);
         this.panel = panel;
@@ -22,7 +22,7 @@ public abstract class PixelPainter extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent event) {
-        Pixel pixel = panel.getPixelFromPos(event.getX(), event.getY());
+        Pixel pixel = panel.getPixel(event.getX() / panel.getPixelSize(), event.getY() / panel.getPixelSize());
         switch (event.getButton()) {
             case MouseEvent.BUTTON1:
                 button1Listeners.forEach(pixelConsumer -> pixelConsumer.accept(pixel));
@@ -36,7 +36,7 @@ public abstract class PixelPainter extends MouseAdapter {
         }
     }
 
-    public PixelPanel getPanel() {
+    public PixelArtPanel getPanel() {
         return panel;
     }
 

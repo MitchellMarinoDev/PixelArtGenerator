@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.List;
 
-public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
+public class GoogleSheetBuilder implements SpreadsheetBuilder {
     public void buildSheet(JFrame frame, int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Pixel Art Quiz");

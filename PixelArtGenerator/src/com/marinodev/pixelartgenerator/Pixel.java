@@ -1,49 +1,29 @@
 package com.marinodev.pixelartgenerator;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class Pixel extends JPanel {
-    private int size;
-    private Color color;
-    private int xPos;
-    private int yPos;
+public class Pixel {
+    public int x;
+    public int y;
+    public int size;
+    public Color color;
+    public LineBorderSpecification spec;
 
-    public Pixel(int size) {
+    public Pixel() {}
+
+    public Pixel(int x, int y, int size, Color color, LineBorderSpecification spec) {
+        this.x = x;
+        this.y = y;
         this.size = size;
-        this.color = Color.WHITE;
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.setPreferredSize(new Dimension(size, size));
+        this.color = color;
+        this.spec = spec;
     }
 
-    public Pixel(int size, int xPos, int yPos) {
-        this.size = size;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.color = Color.WHITE;
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.setPreferredSize(new Dimension(size, size));
-    }
-
-    public Color getColor() {
-        return color;
-    }
-    public void setColor(Color backgroundColor) {
-        this.color = backgroundColor;
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        g.setColor(getColor());
-        g.fillRect(0, 0, getWidth(), getHeight());
-    }
-
-    public int getXPos() {
-        return xPos;
-    }
-    public int getYPos() {
-        return yPos;
+    public void copy(Pixel pixel) {
+        this.x      = pixel.x;
+        this.y      = pixel.y;
+        this.size   = pixel.size;
+        this.color  = pixel.color;
+        this.spec   = pixel.spec;
     }
 }

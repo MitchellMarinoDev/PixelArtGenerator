@@ -1,6 +1,6 @@
 package com.marinodev.pixelartgenerator;
 
-public class PaintablePixelPanel extends PixelPanel{
+public class PaintablePixelPanel extends PixelArtPanel {
     private PixelPainter painter;
 
     public PaintablePixelPanel(int x, int y, int pixelSize) {
