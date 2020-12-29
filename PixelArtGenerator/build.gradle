@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group 'com.marinodev.pixelartgenerator'
+version '1.0'
+
+mainClassName = 'Main'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation 'com.google.api-client:google-api-client:1.30.4'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.6'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
+
+    implementation 'com.intellij:forms_rt:7.0.3'
+
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-examples:4.1.2'
+    implementation 'org.apache.poi:poi-excelant:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+    implementation 'org.apache.poi:ooxml-schemas:1.4'
+    implementation 'org.apache.poi:poi-scratchpad:4.1.2'
+}
+
+test {
+    useJUnitPlatform()
+}
