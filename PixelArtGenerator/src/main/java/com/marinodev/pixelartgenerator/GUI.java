@@ -7,8 +7,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.*;
@@ -69,7 +67,7 @@ public class GUI extends JFrame {
 
     public GUI(String title) throws HeadlessException {
         super(title);
-        System.out.println(SheetsQuickstart.TOKENS_DIRECTORY_PATH);
+        System.out.println(GoogleSheetBuilder.TOKENS_DIRECTORY_PATH);
 
         setUpTable();
         // set up a listener for the add row button for the table
@@ -88,10 +86,13 @@ public class GUI extends JFrame {
 
         buildPixelArtButton.addActionListener(e -> {
             pixelArtPanel.rebuildPixels((Integer) widthSpinner.getValue(), (Integer) heightSpinner.getValue(), (Integer) sizeOfPixelSpinner.getValue());
-            BufferedImage smallImg = imageScaler.getSmallImg();
-            Color[][] imageData = imageToPixelData(smallImg);
-            pixelArtPanel.setPixelColors(imageData, bgColor);
-            pack();
+            try {
+                BufferedImage smallImg = imageScaler.getSmallImg();
+                Color[][] imageData = imageToPixelData(smallImg);
+                pixelArtPanel.setPixelColors(imageData, bgColor);
+            } catch (NullPointerException ex) {
+                // no image selected, rebuild only
+            }
         });
 
         palletButton0.addActionListener(e -> setActivePalletIndex(0));
@@ -127,11 +128,11 @@ public class GUI extends JFrame {
                 removeRowQuestions();
         });
 
-        this.setPreferredSize(new Dimension(800, 600));
+        super.setPreferredSize(new Dimension(800, 600));
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(mainPanel);
-        this.pack();
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super.setContentPane(mainPanel);
+        super.pack();
         bakeButton.addActionListener(e -> {
             Pixel[][] pixels = pixelArtPanel.getPixels();
             grouperPanel.rebuildPixels(pixelArtPanel.getNPixelsX(), pixelArtPanel.getNPixelsY(), pixelArtPanel.getPixelSize());
@@ -148,7 +149,7 @@ public class GUI extends JFrame {
                 throw new IllegalStateException("bgColor must be equal to Color.BLACK or Color.WHITE");
             bgColorButton.setBackground(bgColor);
         });
-        buildGoogleSheetButton.addActionListener(e -> buildSpreadsheet(new SheetsQuickstart()));
+        buildGoogleSheetButton.addActionListener(e -> buildSpreadsheet(new GoogleSheetBuilder()));
     }
 
     // Custom Create Components

@@ -56,6 +56,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
@@ -68,8 +69,8 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.Main" />
+    <configuration name="GoogleSheetBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.GoogleSheetBuilder" />
       <module name="PixelArtGenerator.main" />
       <extension name="coverage">
         <pattern>
@@ -81,8 +82,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SheetsQuickstart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.SheetsQuickstart" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.Main" />
       <module name="PixelArtGenerator.main" />
       <extension name="coverage">
         <pattern>
@@ -97,7 +98,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.SheetsQuickstart" />
+        <item itemvalue="Application.GoogleSheetBuilder" />
       </list>
     </recent_temporary>
   </component>

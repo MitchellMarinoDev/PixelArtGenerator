@@ -56,6 +56,9 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         }
 
         // TODO: make the answer box change color based on if the answer is correct or not
+        // TODO: add background color
+
+
 
         // choose save location
         JFileChooser fileSelector = new JFileChooser();
@@ -86,7 +89,7 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
 
     private static void buildRulesForGroup(List<Pixel> pixelGroup, SheetConditionalFormatting sheetCF, String answer, int groupNumber) {
         for (Pixel pixel : pixelGroup) {
-            ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule("LOWER(TRIM($B$" + (groupNumber + 1) + "))=\"" + answer.toLowerCase(Locale.ENGLISH) + "\"");
+            ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule("LOWER(TRIM($B$" + (groupNumber + 2) + "))=\"" + answer.toLowerCase(Locale.ENGLISH) + "\"");
             rule.createPatternFormatting().setFillBackgroundColor(new XSSFColor(pixel.color));
 
             String addressString = sheetCordFromInt(pixel.x + 2) + (pixel.y + 1);

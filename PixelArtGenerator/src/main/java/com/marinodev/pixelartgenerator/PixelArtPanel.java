@@ -44,6 +44,7 @@ public class PixelArtPanel extends JPanel {
             }
         }
         this.setPreferredSize(new Dimension(nPixelsX * pixelSize, nPixelsY * pixelSize));
+        this.setSize(new Dimension(nPixelsX * pixelSize, nPixelsY * pixelSize));
         this.repaint();
     }
 

@@ -52,21 +52,22 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
 
     @Override
     public void onRebuildPixels() {
-        // new pixels are create therefore we need to make a new list of grouped pixels at the same cords
-        List<List<Pixel>> newGroupedPixels = new ArrayList<>();
-        for (int i = 0, groupedPixelsSize = groupedPixels.size(); i < groupedPixelsSize; i++) {
-            List<Pixel> pixelList = groupedPixels.get(i);
-            newGroupedPixels.add(new ArrayList<>());
-            for (Pixel pixel : pixelList) {
-                // get new pixel that is at the same point as the old one and add it to the list
-                Pixel newPixel = super.getPanel().getPixel(pixel.x, pixel.y);
-                newGroupedPixels.get(i).add(newPixel);
-                // apply the boarder
-                newPixel.spec = groupSpecs.get(i);
-            }
-        }
-        groupedPixels = newGroupedPixels;
-        super.getPanel().repaint();
+//        // new pixels are create therefore we need to make a new list of grouped pixels at the same cords
+//        List<List<Pixel>> newGroupedPixels = new ArrayList<>();
+//        for (int i = 0, groupedPixelsSize = groupedPixels.size(); i < groupedPixelsSize; i++) {
+//            List<Pixel> pixelList = groupedPixels.get(i);
+//            newGroupedPixels.add(new ArrayList<>());
+//            for (Pixel pixel : pixelList) {
+//                // get new pixel that is at the same point as the old one and add it to the list
+//                Pixel newPixel = super.getPanel().getPixel(pixel.x, pixel.y);
+//                newGroupedPixels.get(i).add(newPixel);
+//                // apply the boarder
+//                newPixel.spec = groupSpecs.get(i);
+//            }
+//        }
+//        groupedPixels = newGroupedPixels;
+//        setCurrentGroup(currentGroup);
+//        getPanel().repaint();
     }
 
     public void setCurrentGroup(int currentGroup) {
