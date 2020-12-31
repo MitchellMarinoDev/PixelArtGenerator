@@ -19,12 +19,15 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
+    // Google Sheets api
     implementation 'com.google.api-client:google-api-client:1.30.4'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.6'
     implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
 
+    // Intellij GUI designer integration
     implementation 'com.intellij:forms_rt:7.0.3'
 
+    // Apache POI : XLSX sheet builder
     implementation 'org.apache.poi:poi:4.1.2'
     implementation 'org.apache.poi:poi-examples:4.1.2'
     implementation 'org.apache.poi:poi-excelant:4.1.2'
@@ -32,6 +35,7 @@ dependencies {
     implementation 'org.apache.poi:ooxml-schemas:1.4'
     implementation 'org.apache.poi:poi-scratchpad:4.1.2'
 
+    // java app dirs for app data
     implementation group: 'net.harawata', name: 'appdirs', version: '1.2.0'
 }
 
@@ -40,6 +44,7 @@ jar {
         'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
         'Main-Class': groupName + "." + mainClassName
     )
+    // build depencencies to jar
     from {
         configurations.compileClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
     }
