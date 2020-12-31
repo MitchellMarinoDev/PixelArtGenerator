@@ -2,7 +2,6 @@ package com.marinodev.pixelartgenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.List;
 
 public interface SpreadsheetBuilder {

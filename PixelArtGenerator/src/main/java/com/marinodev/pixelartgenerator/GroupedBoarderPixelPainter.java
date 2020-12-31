@@ -1,15 +1,14 @@
 package com.marinodev.pixelartgenerator;
 
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupedBoarderPixelPainter extends PixelPainter {
-    public LineBorderSpecification selectedBoarder;
-    public LineBorderSpecification unselectedBoarder;
-    public LineBorderSpecification defaultBoarder;
+    public final LineBorderSpecification selectedBoarder;
+    public final LineBorderSpecification unselectedBoarder;
+    public final LineBorderSpecification defaultBoarder;
 
     private int currentGroup = 0;
 
@@ -50,8 +49,10 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
         });
     }
 
-    @Override
-    public void onRebuildPixels() {
+
+//    @Override
+//    public void onRebuildPixels() {
+//        // TODO: Currently not working. boarder is not changed to selected/unselected
 //        // new pixels are create therefore we need to make a new list of grouped pixels at the same cords
 //        List<List<Pixel>> newGroupedPixels = new ArrayList<>();
 //        for (int i = 0, groupedPixelsSize = groupedPixels.size(); i < groupedPixelsSize; i++) {
@@ -62,13 +63,19 @@ public class GroupedBoarderPixelPainter extends PixelPainter {
 //                Pixel newPixel = super.getPanel().getPixel(pixel.x, pixel.y);
 //                newGroupedPixels.get(i).add(newPixel);
 //                // apply the boarder
-//                newPixel.spec = groupSpecs.get(i);
+////                newPixel.spec = pixel.spec;
 //            }
 //        }
 //        groupedPixels = newGroupedPixels;
-//        setCurrentGroup(currentGroup);
+//        // add correct boarder
+//        for (int i = 0, groupedPixelsSize = groupedPixels.size(); i < groupedPixelsSize; i++) {
+//            List<Pixel> pixelList = groupedPixels.get(i);
+//            for (Pixel pixel : pixelList) {
+//                pixel.spec = groupSpecs.get(i);
+//            }
+//        }
 //        getPanel().repaint();
-    }
+//    }
 
     public void setCurrentGroup(int currentGroup) {
         // make more groups if necessary

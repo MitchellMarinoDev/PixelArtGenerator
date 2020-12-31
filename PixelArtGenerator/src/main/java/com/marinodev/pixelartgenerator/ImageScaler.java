@@ -27,12 +27,6 @@ public class ImageScaler {
 
 
     // PRIVATE
-    private Image scaleImage(Image img, int toX, int toY, int resX, int resY) {
-        Image small = img.getScaledInstance(resX, resY, Image.SCALE_AREA_AVERAGING);
-        System.out.println();
-        return small.getScaledInstance(toX, toY, Image.SCALE_SMOOTH);
-    }
-
     private void calcToXY() {
         float imgRatio = (float) img.getWidth() / img.getHeight();
 

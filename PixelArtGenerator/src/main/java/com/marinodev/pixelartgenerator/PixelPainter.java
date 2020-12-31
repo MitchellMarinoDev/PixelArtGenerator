@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public abstract class PixelPainter extends MouseAdapter {
-    private PixelArtPanel panel;
-    private List<Consumer<Pixel>> button1Listeners = new ArrayList<>();
-    private List<Consumer<Pixel>> button2Listeners = new ArrayList<>();
-    private List<Consumer<Pixel>> button3Listeners = new ArrayList<>();
+    private final PixelArtPanel panel;
+    private final List<Consumer<Pixel>> button1Listeners = new ArrayList<>();
+    private final List<Consumer<Pixel>> button2Listeners = new ArrayList<>();
+    private final List<Consumer<Pixel>> button3Listeners = new ArrayList<>();
 
     public PixelPainter(PixelArtPanel panel) {
         super();

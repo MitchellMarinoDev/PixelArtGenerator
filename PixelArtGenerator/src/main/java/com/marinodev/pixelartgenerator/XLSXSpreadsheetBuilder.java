@@ -78,18 +78,23 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         }
     }
 
-    private static void writeSheet(XSSFWorkbook workbook, String fileName) throws IOException {
-        FileOutputStream outputStream = new FileOutputStream(fileName);
-        workbook.write(outputStream);
-    }
     private static void writeSheet(XSSFWorkbook workbook, File file) throws IOException {
         FileOutputStream outputStream = new FileOutputStream(file);
         workbook.write(outputStream);
     }
 
     private static void buildRulesForGroup(List<Pixel> pixelGroup, SheetConditionalFormatting sheetCF, String answer, int groupNumber) {
+        String formula = "LOWER(TRIM($B$" + (groupNumber + 2) + "))=\"" + answer.toLowerCase(Locale.ENGLISH) + "\"";
+        // make CF for answer box
+        ConditionalFormattingRule ansCellRule = sheetCF.createConditionalFormattingRule(formula);
+        ansCellRule.createPatternFormatting().setFillBackgroundColor(new XSSFColor(pixelGroup.get(0).color));
+        CellRangeAddress[] ansCellRegions = new CellRangeAddress[]{CellRangeAddress.valueOf("$B$" + groupNumber)};
+        ConditionalFormattingRule[] ansCFRules = new ConditionalFormattingRule[]{ansCellRule};
+
+        sheetCF.addConditionalFormatting(ansCellRegions, ansCFRules);
+        // add a CF rule for each pixel
         for (Pixel pixel : pixelGroup) {
-            ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule("LOWER(TRIM($B$" + (groupNumber + 2) + "))=\"" + answer.toLowerCase(Locale.ENGLISH) + "\"");
+            ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule(formula);
             rule.createPatternFormatting().setFillBackgroundColor(new XSSFColor(pixel.color));
 
             String addressString = sheetCordFromInt(pixel.x + 2) + (pixel.y + 1);

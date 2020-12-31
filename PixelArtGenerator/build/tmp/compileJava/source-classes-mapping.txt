@@ -8,12 +8,6 @@ com/marinodev/pixelartgenerator/LockedTable.java
  com.marinodev.pixelartgenerator.LockedTable
 com/marinodev/pixelartgenerator/Pixel.java
  com.marinodev.pixelartgenerator.Pixel
-com/marinodev/pixelartgenerator/PixelPanel.java
- com.marinodev.pixelartgenerator.PixelPanel
-com/marinodev/pixelartgenerator/SheetsQuickstart.java
- com.marinodev.pixelartgenerator.SheetsQuickstart
-com/marinodev/pixelartgenerator/OldPixel.java
- com.marinodev.pixelartgenerator.OldPixel
 com/marinodev/pixelartgenerator/GroupedBoarderPixelPainter.java
  com.marinodev.pixelartgenerator.GroupedBoarderPixelPainter
 com/marinodev/pixelartgenerator/XLSXSpreadsheetBuilder.java

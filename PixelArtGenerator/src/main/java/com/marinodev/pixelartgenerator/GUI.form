@@ -49,7 +49,7 @@
                   <text value="Add Question"/>
                 </properties>
               </component>
-              <component id="49a87" class="javax.swing.JButton" binding="removeQuestion">
+              <component id="49a87" class="javax.swing.JButton" binding="removeQuestionButton">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

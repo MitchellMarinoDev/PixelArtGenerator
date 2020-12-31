@@ -1,9 +1,11 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'application'
 
 group 'com.marinodev.pixelartgenerator'
 version '1.0'
 
+String groupName = 'com.marinodev.pixelartgenerator'
 mainClassName = 'Main'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -29,6 +31,18 @@ dependencies {
     implementation 'org.apache.poi:poi-ooxml:4.1.2'
     implementation 'org.apache.poi:ooxml-schemas:1.4'
     implementation 'org.apache.poi:poi-scratchpad:4.1.2'
+
+    implementation group: 'net.harawata', name: 'appdirs', version: '1.2.0'
+}
+
+jar {
+    manifest.attributes(
+        'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+        'Main-Class': groupName + "." + mainClassName
+    )
+    from {
+        configurations.compileClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 test {

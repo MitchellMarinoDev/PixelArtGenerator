@@ -9,24 +9,6 @@ public class PixelArtPanel extends JPanel {
     private int pixelSize;
     Pixel[][] pixels;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        PaintablePixelPanel panel = new PaintablePixelPanel(20, 20, 20);
-        panel.setPainter(new GroupedBoarderPixelPainter(panel));
-
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        panel.pixels[0][0] = new Pixel(0, 0, 20, Color.RED, new LineBorderSpecification(Color.GREEN, 2));
-//        panel.paintPixel(0, 0);
-    }
-
     public PixelArtPanel(int nPixelsX, int nPixelsY, int pixelSize) {
         super();
         rebuildPixels(nPixelsX, nPixelsY, pixelSize);
