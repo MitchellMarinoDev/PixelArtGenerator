@@ -19,6 +19,11 @@ import java.util.List;
 
 public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
     public void buildSheet(JFrame frame, int widthOfPixelArtSection, int heightOfPixelArtSection, String[][] questionAnswers, List<List<Pixel>> pixelGroups, Color bgColor) {
+        if (pixelGroups.size() != questionAnswers.length || pixelGroups.stream().anyMatch(pixelList -> pixelList.size() == 0)) {
+            JOptionPane.showMessageDialog(frame, "Make sure that all groups have at least 1 pixel");
+            return;
+        }
+
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Pixel Art Quiz");
 
@@ -39,15 +44,18 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         headerRow.createCell(1).setCellValue("ANSWERS:");
 
         // Build data for ques ans pairs
-        int rowCount = 0;
+        int rowIndex = 1;
         for (String[] rowData : questionAnswers) {
-            Row row = sheet.createRow(rowCount++);
-            row.createCell(0).setCellValue(rowData[0]); // write the question into the cell
+            Row row = sheet.createRow(rowIndex++);
+            if (row.getCell(0) == null)
+                row.createCell(0).setCellValue(rowData[0]);
+            row.getCell(0).setCellValue(rowData[0]); // write the question into the cell
+
         }
 
         SheetConditionalFormatting sheetCF = sheet.getSheetConditionalFormatting();
 
-        // for each group
+        // for each group: build all the CF rules
         for (int i = 0, questionAnswersLength = questionAnswers.length; i < questionAnswersLength; i++) {
             String answer = questionAnswers[i][1];
             List<Pixel> pixelGroup = pixelGroups.get(i);
@@ -57,8 +65,6 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
 
         // TODO: make the answer box change color based on if the answer is correct or not
         // TODO: add background color
-
-
 
         // choose save location
         JFileChooser fileSelector = new JFileChooser();
@@ -83,12 +89,12 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         workbook.write(outputStream);
     }
 
-    private static void buildRulesForGroup(List<Pixel> pixelGroup, SheetConditionalFormatting sheetCF, String answer, int groupNumber) {
+    private static void buildRulesForGroup(List<Pixel> pixelGroup, SheetConditionalFormatting sheetCF, String answer, final int groupNumber) {
         String formula = "LOWER(TRIM($B$" + (groupNumber + 2) + "))=\"" + answer.toLowerCase(Locale.ENGLISH) + "\"";
         // make CF for answer box
         ConditionalFormattingRule ansCellRule = sheetCF.createConditionalFormattingRule(formula);
         ansCellRule.createPatternFormatting().setFillBackgroundColor(new XSSFColor(pixelGroup.get(0).color));
-        CellRangeAddress[] ansCellRegions = new CellRangeAddress[]{CellRangeAddress.valueOf("$B$" + groupNumber)};
+        CellRangeAddress[] ansCellRegions = new CellRangeAddress[]{CellRangeAddress.valueOf("$B$" + (groupNumber + 2))};
         ConditionalFormattingRule[] ansCFRules = new ConditionalFormattingRule[]{ansCellRule};
 
         sheetCF.addConditionalFormatting(ansCellRegions, ansCFRules);
@@ -96,6 +102,9 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         for (Pixel pixel : pixelGroup) {
             ConditionalFormattingRule rule = sheetCF.createConditionalFormattingRule(formula);
             rule.createPatternFormatting().setFillBackgroundColor(new XSSFColor(pixel.color));
+            // if the color is too dark, make the text white
+            Color textColor = (pixel.color.getRed() + pixel.color.getGreen() + pixel.color.getBlue()) < 350 ? java.awt.Color.WHITE : java.awt.Color.BLACK;
+            rule.createPatternFormatting().setFillForegroundColor(new XSSFColor(textColor));
 
             String addressString = sheetCordFromInt(pixel.x + 2) + (pixel.y + 1);
             CellRangeAddress[] regions = new CellRangeAddress[]{CellRangeAddress.valueOf(addressString)};
@@ -115,7 +124,6 @@ public class XLSXSpreadsheetBuilder implements SpreadsheetBuilder {
         } else if (num < 26 * 26) {
             char first  = (char) (64 + (num / 26));
             char second = (char) (65 + (num % 26));
-            System.out.println(num % 26);
             return String.valueOf(first) + second;
         }
         throw new IllegalArgumentException("Number " + num + " is out of bounds.");

@@ -174,6 +174,7 @@ public class GoogleSheetBuilder implements SpreadsheetBuilder{
                 singleCordsToGridRange(1, groupNumber + 1),
                 rule,
                 group.get(0).color,
+                // if it is too dark make the text white
                 (color.getRed() + color.getGreen() + color.getBlue()) < 350 ? java.awt.Color.WHITE : java.awt.Color.BLACK
             ));
 
