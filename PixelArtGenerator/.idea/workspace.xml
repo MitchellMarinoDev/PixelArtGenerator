@@ -84,7 +84,7 @@
       <command value="gradle clean build" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.PixelArtGenerator [clean build]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.marinodev.pixelartgenerator.Main" />
       <module name="PixelArtGenerator.main" />
@@ -183,8 +183,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.PixelArtGenerator [clean build]" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.PixelArtGenerator [clean build]" />
         <item itemvalue="Gradle.PixelArtGenerator" />
         <item itemvalue="Gradle.PixelArtGenerator [buildDependents]" />
         <item itemvalue="Gradle.PixelArtGenerator [build]" />
