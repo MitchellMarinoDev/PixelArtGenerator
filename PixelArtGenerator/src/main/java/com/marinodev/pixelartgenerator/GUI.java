@@ -98,7 +98,7 @@ public class GUI extends JFrame {
 
         colorChooser.getSelectionModel().addChangeListener(onColorSelected);
 
-        pixelArtPanel.getPainter().addMiddleClickListener(eyedropColor);
+        ((ColorPixelPainter) pixelArtPanel.getPainter()).addColorPickedListener(eyedropColor);
         removeQuestionButton.addActionListener(removeQuestion);
 
 
@@ -112,6 +112,12 @@ public class GUI extends JFrame {
         palletButton1.addActionListener(e -> setActivePalletIndex(1));
         palletButton2.addActionListener(e -> setActivePalletIndex(2));
         palletButton3.addActionListener(e -> setActivePalletIndex(3));
+
+        // this call is necessary on Mac
+        palletButton0.setOpaque(true);
+        palletButton1.setOpaque(true);
+        palletButton2.setOpaque(true);
+        palletButton3.setOpaque(true);
 
         addQuestion.addActionListener(e -> addRowQuestions());
         bakeButton.addActionListener(bake);
@@ -172,17 +178,16 @@ public class GUI extends JFrame {
 
     //Consumer<ChangeEvent> bake =
 
-    final Consumer<Pixel> eyedropColor = pixel -> {
-        Color pixelColor = pixel.color;
+    final Consumer<Color> eyedropColor = color -> {
         // if a color in the pallet matches, select it. else set the current pallet color to it
         for (int i = 0, palletLength = pallet.length; i < palletLength; i++) {
-            if (pallet[i].getBackground().equals(pixelColor)) {
+            if (pallet[i].getBackground().equals(color)) {
                 setActivePalletIndex(i);
                 return;
             }
         }
         // if none of the above apply, set selected pallet to the color
-        pallet[activePalletIndex].setBackground(pixelColor);
+        pallet[activePalletIndex].setBackground(color);
         setActivePalletIndex(activePalletIndex);
     };
     //endregion
