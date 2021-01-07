@@ -11,10 +11,10 @@ public class PixelArtPanel extends JPanel {
 
     public PixelArtPanel(int nPixelsX, int nPixelsY, int pixelSize) {
         super();
-        rebuildPixels(nPixelsX, nPixelsY, pixelSize);
+        rebuildPixels(nPixelsX, nPixelsY, pixelSize, Color.WHITE, Color.BLACK);
     }
 
-    public void rebuildPixels(int nPixelsX, int nPixelsY, int pixelSize) {
+    public void rebuildPixels(int nPixelsX, int nPixelsY, int pixelSize, Color bgColor, Color borderColor) {
         this.nPixelsX = nPixelsX;
         this.nPixelsY = nPixelsY;
         this.pixelSize = pixelSize;
@@ -22,7 +22,7 @@ public class PixelArtPanel extends JPanel {
         // set pixel colors and border specs
         for (int x = 0, pixelsLength = pixels.length; x < pixelsLength; x++) {
             for (int y = 0, pixelRowLength = pixels[x].length; y < pixelRowLength; y++) {
-                pixels[x][y] = new Pixel(x, y, pixelSize, Color.WHITE, new LineBorderSpecification(Color.BLACK, 1));
+                pixels[x][y] = new Pixel(x, y, pixelSize, bgColor, new LineBorderSpecification(borderColor, 1));
             }
         }
         this.setPreferredSize(new Dimension(nPixelsX * pixelSize, nPixelsY * pixelSize));

@@ -1,5 +1,7 @@
 package com.marinodev.pixelartgenerator;
 
+import java.awt.*;
+
 public class PaintablePixelPanel extends PixelArtPanel {
     private PixelPainter painter;
 
@@ -8,8 +10,8 @@ public class PaintablePixelPanel extends PixelArtPanel {
     }
 
     @Override
-    public void rebuildPixels(int x, int y, int pixelSize) {
-        super.rebuildPixels(x, y, pixelSize);
+    public void rebuildPixels(int x, int y, int pixelSize, Color bgColor, Color borderColor) {
+        super.rebuildPixels(x, y, pixelSize, bgColor, borderColor);
         if (painter != null)
             painter.onRebuildPixels();
     }

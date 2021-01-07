@@ -135,7 +135,12 @@ public class GUI extends JFrame {
 
     //region button functions
     final ActionListener buildPixelArt = e -> {
-        pixelArtPanel.rebuildPixels((Integer) widthSpinner.getValue(), (Integer) heightSpinner.getValue(), (Integer) sizeOfPixelSpinner.getValue());
+        int width = (Integer) widthSpinner.getValue();
+        int height = (Integer) heightSpinner.getValue();
+        int sizeOfPixel = (Integer) sizeOfPixelSpinner.getValue();
+
+        Color borderColor = bgColor.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+        pixelArtPanel.rebuildPixels(width, height, sizeOfPixel, bgColor, borderColor);
         try {
             BufferedImage smallImg = imageScaler.getSmallImg();
             Color[][] imageData = imageToPixelData(smallImg);
@@ -162,7 +167,7 @@ public class GUI extends JFrame {
 
     final ActionListener bake = e -> {
         Pixel[][] pixels = pixelArtPanel.getPixels();
-        grouperPanel.rebuildPixels(pixelArtPanel.getNPixelsX(), pixelArtPanel.getNPixelsY(), pixelArtPanel.getPixelSize());
+        grouperPanel.rebuildPixels(pixelArtPanel.getNPixelsX(), pixelArtPanel.getNPixelsY(), pixelArtPanel.getPixelSize(), Color.WHITE, Color.BLACK);
         grouperPanel.copyPixels(pixels);
     };
 
@@ -173,6 +178,8 @@ public class GUI extends JFrame {
             bgColor = Color.BLACK;
         else
             throw new IllegalStateException("bgColor must be equal to Color.BLACK or Color.WHITE");
+
+        ((ColorPixelPainter) pixelArtPanel.getPainter()).bgColor = bgColor;
         bgColorButton.setBackground(bgColor);
     };
 
