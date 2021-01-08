@@ -123,6 +123,7 @@ public class GUI extends JFrame {
         bakeButton.addActionListener(bake);
 
         bgColorButton.addActionListener(switchBGColor);
+        bgColorButton.setOpaque(true);
 
         buildButton.addActionListener(e -> buildSpreadsheet(new XLSXSpreadsheetBuilder()));
         buildGoogleSheetButton.addActionListener(e -> buildSpreadsheet(new GoogleSheetBuilder()));
