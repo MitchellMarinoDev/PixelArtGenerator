@@ -40,3 +40,4 @@ TODO:
 - When baking the pixel art image to the grouper, make the groups not reset.
 - delete other unused columns when building to a spreadsheet.
 - make pixel art cells more square When building to and XLSX
+- make button automatic actions that happen when changing tabs
