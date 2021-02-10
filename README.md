@@ -41,3 +41,4 @@ TODO:
 - delete other unused columns when building to a spreadsheet.
 - make pixel art cells more square When building to and XLSX
 - make button automatic actions that happen when changing tabs
+- add support for multiple answers deliminated by semicolons
